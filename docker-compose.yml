@@ -1,0 +1,7 @@
+version: "3.8"
+services:
+  app:
+    container_name: php_contactform
+    build: ./docker/php
+    volumes:
+      - ./src:/contactform
