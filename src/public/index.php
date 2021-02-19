@@ -15,6 +15,10 @@
       exit();
     }
   }
+
+  if($_REQUEST['action'] == 'back' && isset($_SESSION['comfirm'])) {
+    $_POST = $_SESSION['comfirm'];
+  }
 ?>
 
 <!DOCTYPE html>
