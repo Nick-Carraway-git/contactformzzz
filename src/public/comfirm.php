@@ -6,6 +6,21 @@
     header('Location: index.php');
     exit();
   }
+
+  if(!empty($_POST)){
+    $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
+    $statement->execute(array(
+      $_SESSION['comfirm']['title'],
+      $_SESSION['comfirm']['name'],
+      $_SESSION['comfirm']['email'],
+      $_SESSION['comfirm']['tel'],
+      $_SESSION['comfirm']['content'],
+    ));
+    unset($_SESSION['comfirm']);
+
+    header('Location: complete.php');
+    exit();
+  }
 ?>
 
 <!DOCTYPE html>

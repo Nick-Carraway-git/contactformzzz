@@ -2,13 +2,15 @@ version: "3.8"
 
 volumes:
   db-contact:
+networks:
+  web-contact:
 services:
   app:
     container_name: php_contactform
     build: ./docker/php
     env_file: ./src/.env
-    environment:
-      DATABASE_HOST: db
+    networks:
+      - web-contact
     depends_on:
       - db
     volumes:
@@ -19,6 +21,8 @@ services:
     image: nginx:1.18-alpine
     ports:
       - 80:80
+    networks:
+      - web-contact
     depends_on:
       - app
     volumes:
@@ -32,5 +36,7 @@ services:
     env_file: ./src/.env
     ports:
       - 3306:3306
+    networks:
+      - web-contact
     volumes:
       - db-contact:/contactform

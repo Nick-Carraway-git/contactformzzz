@@ -1,10 +1,20 @@
 <?php
-$dboutlone = 'mysql:dbname=sampledb;host=mysql;charset=utf8';
+$dsn = 'mysql:dbname=sampledb;host=db;charset=utf8';
 $user = 'contactman';
 $password = 'password';
+$create_table = "CREATE TABLE IF NOT EXISTS contactlogs (
+    id INT(5) NOT NULL auto_increment PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    tel INT NOT NULL,
+    content TEXT NOT NULL
+  )";
+
 try {
-  $db = new PDO($dboutline, $user, $password);
+  $db = new PDO($dsn, $user, $password);
+  $db->query($create_table);
 } catch (PDOException $e) {
-  print('エラー発生:' .$e->getMessage());
+  print('エラー内容:' .$e->getMessage());
 }
 ?>
