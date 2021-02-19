@@ -1,3 +1,8 @@
+<?php
+  require('../db_setting.php');
+  $logs = $db->query('SELECT * from contactlogs');
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
   <head>
@@ -7,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="format.css">
   </head>
   <body>
-
+    <?php foreach($logs as $log): ?>
+      <p><?php print($log['name']); ?></p>
+    <?php endforeach; ?>
   </body>
 </html>

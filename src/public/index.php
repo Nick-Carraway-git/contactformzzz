@@ -6,7 +6,7 @@
     if(empty($_POST['name'])) $error['name'] = 'blank';
     if(empty($_POST['email'])) $error['email'] = 'blank';
     if(empty($_POST['tel'])) $error['tel_blank'] = 'blank';
-    if(!filter_input(INPUT_POST, 'tel' ,FILTER_VALIDATE_INT)) $error['tel_nonum'] = 'nonum';
+    if(!is_numeric($_POST['tel'])) $error['tel_nonum'] = 'nonum';
     if(empty($_POST['content'])) $error['content'] = 'blank';
 
     if(empty($error)) {
