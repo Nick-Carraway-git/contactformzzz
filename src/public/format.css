@@ -1,3 +1,17 @@
-p {
-  color:red;
+/* index */
+.parts {
+  margin: 0 0 10px 5px;
+}
+
+.parts span {
+  font-size: 0.8em;
+}
+
+.parts textarea{
+  vertical-align:top;
+}
+
+.error {
+  color: #ff0000;
+  font-size: 0.8em;
 }
