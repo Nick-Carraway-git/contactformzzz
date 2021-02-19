@@ -16,7 +16,12 @@
     }
   }
 
-  if($_REQUEST['action'] == 'back' && isset($_SESSION['comfirm'])) {
+  // $_POSTがある場合に$_SESSIONを解除
+  if(!empty($_POST) && isset($_SESSION['comfirm'])) {
+    unset($_SESSION['comfirm']);
+  }
+
+  if(isset($_REQUEST['action']) && isset($_SESSION['comfirm'])) {
     $_POST = $_SESSION['comfirm'];
   }
 ?>
