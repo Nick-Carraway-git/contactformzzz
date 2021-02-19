@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require('../db_setting.php');
 
   if(!isset($_SESSION['comfirm'])) {
     header('Location: index.php');
