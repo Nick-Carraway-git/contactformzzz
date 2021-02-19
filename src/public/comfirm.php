@@ -7,7 +7,19 @@
     exit();
   }
 
-  if(!empty($_POST)){
+  switch($_SESSION['comfirm']['title']) {
+    case "1":
+      $_SESSION['comfirm']['title'] = 'ご意見';
+      break;
+    case "2":
+      $_SESSION['comfirm']['title'] = 'ご感想';
+      break;
+    case "3":
+      $_SESSION['comfirm']['title'] = 'その他';
+      break;
+  }
+
+  if(!empty($_POST)) {
     $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
     $statement->execute(array(
       $_SESSION['comfirm']['title'],

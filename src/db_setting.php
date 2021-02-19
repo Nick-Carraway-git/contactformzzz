@@ -7,9 +7,9 @@ $create_table = "CREATE TABLE IF NOT EXISTS contactlogs (
     title VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    tel INT NOT NULL,
+    tel BIGINT NOT NULL,
     content TEXT NOT NULL
-  )";
+) DEFAULT CHARSET=utf8";
 
 try {
   $db = new PDO($dsn, $user, $password);

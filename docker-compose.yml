@@ -40,3 +40,4 @@ services:
       - web-contact
     volumes:
       - db-contact:/contactform
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
