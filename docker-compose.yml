@@ -41,3 +41,18 @@ services:
     volumes:
       - db-contact:/contactform
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  composer:
+    restart: 'no'
+    image: composer/composer
+    command: install
+    volumes:
+      - ./src:/app
+
+  maildev:
+    image: kanemu/maildev-with-iconv
+    ports:
+      - 1025:25
+      - 8025:80
+    networks:
+      - web-contact
