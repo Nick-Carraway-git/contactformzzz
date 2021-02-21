@@ -37,10 +37,10 @@
   <body>
     <div class="container">
       <h1>Contact Form</h1>
-      <form action="" method="post">
+      <form method="post">
         <div class="parts">
           <label for="title">件名</label><span>※必須</span>
-          <select class="" id="title" name="title" required>
+          <select class="parts" id="title" name="title" required>
             <option disabled selected value="">選択して下さい</option>
             <option value="1">ご意見</option>
             <option value="2">ご感想</option>

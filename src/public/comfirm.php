@@ -88,26 +88,26 @@
   </head>
   <body>
     <div class="container">
-      <form action="" method="post">
+      <form method="post">
         <table>
           <tr>
-            <th align="left">件名</th>
+            <th>件名</th>
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['title'], ENT_QUOTES)); ?></td>
           </tr>
           <tr>
-            <th align="left">名前</th>
+            <th>名前</th>
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['name'], ENT_QUOTES)); ?></td>
           </tr>
           <tr>
-            <th align="left">メールアドレス</th>
+            <th>メールアドレス</th>
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['email'], ENT_QUOTES)); ?></td>
           </tr>
           <tr>
-            <th align="left">電話番号</th>
+            <th>電話番号</th>
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['tel'], ENT_QUOTES)); ?></td>
           </tr>
           <tr>
-            <th align="left">お問い合わせ内容</th>
+            <th>お問い合わせ内容</th>
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['content'], ENT_QUOTES)); ?></td>
           </tr>
         </table>

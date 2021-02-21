@@ -27,21 +27,21 @@
       <p>
         <?php if(isset($send_error)) print($send_error); ?>
       </p>
-      <table border="1" cellpadding="5">
+      <table class="complete-table">
         <tr>
-          <th>件名</th>
-          <th>名前</th>
-          <th>メールアドレス</th>
-          <th>電話番号</th>
-          <th>お問い合わせ内容</th>
+          <th class="th-common title-cell">件名</th>
+          <th class="th-common name-cell">名前</th>
+          <th class="th-common email-cell">メールアドレス</th>
+          <th class="th-common tel-cell">電話番号</th>
+          <th class="th-common content-cell">お問い合わせ内容</th>
         </tr>
         <?php foreach($logs as $log): ?>
           <tr>
-            <td nowrap><?php print($log['title']); ?></td>
-            <td nowrap><?php print($log['name']); ?></td>
-            <td nowrap><?php print($log['email']); ?></td>
-            <td nowrap><?php print($log['tel']); ?></td>
-            <td nowrap><?php print($log['content']); ?></td>
+            <td><p class="td-common"><?php print($log['title']); ?></p></td>
+            <td><p class="td-common"><?php print($log['name']); ?></p></td>
+            <td><p class="td-common"><?php print($log['email']); ?></p></td>
+            <td><p class="td-common"><?php print($log['tel']); ?></p></td>
+            <td><p class="td-common"><?php print($log['content']); ?></p></td>
           </tr>
         <?php endforeach; ?>
       </table>
