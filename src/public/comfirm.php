@@ -30,6 +30,20 @@
   }
 
   if(!empty($_POST)) {
+    // お問い合わせ送信時にデータベースに登録
+    try {
+      $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
+      $statement->execute(array(
+        $_SESSION['comfirm']['title'],
+        $_SESSION['comfirm']['name'],
+        $_SESSION['comfirm']['email'],
+        $_SESSION['comfirm']['tel'],
+        $_SESSION['comfirm']['content'],
+      ));
+    } catch (PDOException $e) {
+      $_SESSION['db'] = 'データベースの登録に失敗しました。';
+    }
+
     $mailer = new PHPMailer(true);
 
     // SMTPの設定情報
@@ -61,9 +75,10 @@
 
       $mailer->Send();
     } catch (Exception $e) {
-      $_SESSION['send'] = 'メールの送信とデータベースの登録に失敗しました。メールアドレスが正確かご確認ください。';
+      $_SESSION['send'] = 'メールの送信に失敗しました。メールアドレスが正確かご確認ください。';
     }
 
+    /* メール送信が成功した場合に、同時にデータベースにも登録するパターン
     if (!isset($_SESSION['send'])) {
       $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
       $statement->execute(array(
@@ -74,6 +89,7 @@
         $_SESSION['comfirm']['content'],
       ));
     }
+    */
 
     header('Location: complete.php');
     exit();
