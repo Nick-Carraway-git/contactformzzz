@@ -85,7 +85,7 @@
         </div>
         <div class="parts">
           <label for="content">お問い合わせ内容<span>※必須</span></label>
-          <textarea class="form-part-common" id="content" name="content" placeholder="お問い合わせ内容" rows="4" required><?php if(isset($_POST['content']))
+          <textarea class="form-part-common" id="content" name="content" placeholder="お問い合わせ内容" rows="5" required><?php if(isset($_POST['content']))
                     print(htmlspecialchars($_POST['content'], ENT_QUOTES)); ?></textarea>
           <?php if(isset($error['content'])): ?>
             <p class="error">お問い合わせ内容を入力して下さい。</p>
@@ -93,6 +93,7 @@
         </div>
         <div class="parts"><input type="submit" value="確認画面" /></div>
       </form>
+      <a href="dbshow.php" class="link">最新のお問い合わせ一覧</a>
     </div>
   </body>
 </html>

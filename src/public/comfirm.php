@@ -114,7 +114,7 @@
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['content'], ENT_QUOTES)); ?></td>
           </tr>
         </table>
-        <div><a href="index.php?action=back" class="back-link">フォームに戻る</a> | <input type="submit" value="送信する"></div>
+        <div><a href="index.php?action=back" class="link">フォームに戻る</a> | <input type="submit" value="送信する"></div>
         <input type="hidden" name="action" value="comfirmed">
       </form>
     </div>
