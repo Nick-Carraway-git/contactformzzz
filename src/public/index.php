@@ -1,12 +1,14 @@
 <?php
   session_start();
 
+  # エラーチェック
   if(!empty($_POST)) {
     if(empty($_POST['title'])) $error['title'] = 'blank';
     if(empty($_POST['name'])) $error['name'] = 'blank';
     if(empty($_POST['email'])) $error['email'] = 'blank';
     if(empty($_POST['tel'])) $error['tel_blank'] = 'blank';
     if(!is_numeric($_POST['tel'])) $error['tel_nonum'] = 'nonum';
+    if(strlen($_POST['tel']) > 15) $error['tel_long'] = 'long';
     if(empty($_POST['content'])) $error['content'] = 'blank';
 
     if(empty($error)) {
@@ -16,11 +18,12 @@
     }
   }
 
-  // $_POSTがある場合に$_SESSIONを解除
+  // フォームへ戻る以外で、$_SESSIONを保持するのは不正なので解除
   if(!empty($_POST) && isset($_SESSION['comfirm'])) {
     unset($_SESSION['comfirm']);
   }
 
+  // 確認画面から戻ってきた場合に書いた内容を補完
   if(isset($_REQUEST['action']) && isset($_SESSION['comfirm'])) {
     $_POST = $_SESSION['comfirm'];
   }
@@ -70,11 +73,14 @@
           <label for="tel">電話番号<span>※必須</span></label>
           <input type="tel" class="form-part-common" id="tel" name="tel" placeholder="電話番号"
                  value="<?php if(isset($_POST['tel'])) print(htmlspecialchars($_POST['tel'], ENT_QUOTES)); ?>" required>
-          <?php if(isset($error['tel_blank']) && $error['tel_blank'] == 'blank'): ?>
+          <?php if(isset($error['tel_blank'])): ?>
             <p class="error">電話番号を入力して下さい。</p>
           <?php endif; ?>
-          <?php if(isset($error['tel_nonum']) && $error['tel_nonum'] == 'nonum'): ?>
-            <p class="error">電話番号は数字(ハイフンなし)で入力してください。</p>
+          <?php if(isset($error['tel_nonum'])): ?>
+            <p class="error">電話番号は数字(ハイフンなし)で入力して下さい。</p>
+          <?php endif; ?>
+          <?php if(isset($error['tel_long'])): ?>
+            <p class="error">電話番号は15桁以内で入力して下さい。</p>
           <?php endif; ?>
         </div>
         <div class="parts">

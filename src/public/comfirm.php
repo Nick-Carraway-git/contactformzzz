@@ -1,5 +1,6 @@
 <?php
   session_start();
+  // Database設定の読み込み
   require('../db_setting.php');
   // PHPMailerと環境設定ファイルの読み込み
   require('../vendor/autoload.php');
@@ -9,11 +10,13 @@
   use PHPMailer\PHPMailer\Exception;
   use PHPMailer\PHPMailer\SMTP;
 
+  # フォーム画面以外からのアクセスはリダイレクト
   if(!isset($_SESSION['comfirm'])) {
     header('Location: index.php');
     exit();
   }
 
+  # 件名を日本語に置換
   switch($_SESSION['comfirm']['title']) {
     case "1":
       $_SESSION['comfirm']['title'] = 'ご意見';
@@ -59,7 +62,6 @@
       $mailer->Send();
     } catch (Exception $e) {
       $_SESSION['send'] = 'メールの送信とデータベースの登録に失敗しました。メールアドレスが正確かご確認ください。';
-      // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 
     if (!isset($_SESSION['send'])) {

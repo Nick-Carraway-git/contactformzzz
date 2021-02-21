@@ -7,9 +7,12 @@
     exit();
   }
 
+  // メール送信に失敗した場合のメッセージを変数に格納
   if(isset($_SESSION['send'])) $send_error = $_SESSION['send'];
-  $logs = $db->query('SELECT * from contactlogs');
+  // 問い合わせから最新の20件を表示
+  $logs = $db->query('SELECT * from contactlogs ORDER BY id DESC LIMIT 20');
 
+  // SESSION変数の割り当てを解除
   unset($_SESSION['comfirm']);
   unset($_SESSION['send']);
 ?>
@@ -31,6 +34,7 @@
         <?php else: ?>
           <p>メールの送信とデータベースの登録に成功しました。</p>
         <?php endif; ?>
+        <p>最新20件のお問い合わせを表示しています。</p>
       </div>
       <table class="complete-table">
         <tr>
