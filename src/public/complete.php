@@ -24,24 +24,29 @@
   </head>
   <body>
     <div class="container">
-      <p>
-        <?php if(isset($send_error)) print($send_error); ?>
-      </p>
+      <h1>Result</h1>
+      <div class="complete-message">
+        <?php if(isset($send_error)): ?>
+          <p><?php print($send_error); ?></p>
+        <?php else: ?>
+          <p>メールの送信とデータベースの登録に成功しました。</p>
+        <?php endif; ?>
+      </div>
       <table class="complete-table">
         <tr>
-          <th class="th-common title-cell">件名</th>
-          <th class="th-common name-cell">名前</th>
-          <th class="th-common email-cell">メールアドレス</th>
-          <th class="th-common tel-cell">電話番号</th>
-          <th class="th-common content-cell">お問い合わせ内容</th>
+          <th class="title-cell">件名</th>
+          <th class="name-cell">名前</th>
+          <th class="email-cell">メールアドレス</th>
+          <th class="tel-cell">電話番号</th>
+          <th class="content-cell">お問い合わせ内容</th>
         </tr>
         <?php foreach($logs as $log): ?>
           <tr>
-            <td><p class="td-common"><?php print($log['title']); ?></p></td>
-            <td><p class="td-common"><?php print($log['name']); ?></p></td>
-            <td><p class="td-common"><?php print($log['email']); ?></p></td>
-            <td><p class="td-common"><?php print($log['tel']); ?></p></td>
-            <td><p class="td-common"><?php print($log['content']); ?></p></td>
+            <td><p><?php print($log['title']); ?></p></td>
+            <td><p><?php print($log['name']); ?></p></td>
+            <td><p><?php print($log['email']); ?></p></td>
+            <td><p><?php print($log['tel']); ?></p></td>
+            <td><p><?php print($log['content']); ?></p></td>
           </tr>
         <?php endforeach; ?>
       </table>

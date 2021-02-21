@@ -1,15 +1,41 @@
 /* global */
+body {
+  color: #4f595d;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
 table {
   width: 100%;
+  table-layout: fixed;
+  border: 3px solid #000;
 }
 
 /* index */
 .parts {
-  margin: 0 0 10px 5px;
+  margin: 0 10px 20px 5px;
+}
+
+.form-part-common {
+  width: 100%;
+  line-height: 1.5em;
 }
 
 .parts span {
   font-size: 0.8em;
+  color: #ff0000;
+}
+
+.parts label {
+  display: inline-block;
+  width: 100%;
+}
+
+.parts select {
+  width: 30%;
 }
 
 .parts textarea{
@@ -21,17 +47,41 @@ table {
   font-size: 0.8em;
 }
 
-/* complete */
-.complete-table {
-  table-layout: fixed;
-  border: 3px solid #000;
-}
-
-.th-common {
+/* comfirm */
+.comfirm-table th {
   text-align: left;
   border: 1px solid #000;
   padding: 5px;
   margin: 0;
+}
+
+.comfirm-table td {
+  border: 1px solid #000;
+  padding: 5px;
+  margin: 0 -1px;
+  word-wrap: break-word;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 20px;
+  text-decoration: none;
+}
+
+/* complete */
+.complete-table th {
+  text-align: left;
+  border: 1px solid #000;
+  padding: 5px;
+  margin: 0;
+}
+
+.complete-table td {
+  border: 1px solid #000;
+  padding: 5px;
+  margin: 0 -1px;
+  overflow: scroll;
+  white-space: nowrap;
 }
 
 .title-cell {
@@ -54,10 +104,6 @@ table {
   width: 40%;
 }
 
-.td-common {
-  border: 1px solid #000;
-  padding: 5px;
-  margin: 0 -1px;
-  overflow: scroll;
-  white-space: nowrap;
+.complete-message {
+  color: #ff0000;
 }

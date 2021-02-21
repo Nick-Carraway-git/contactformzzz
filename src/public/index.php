@@ -39,8 +39,8 @@
       <h1>Contact Form</h1>
       <form method="post">
         <div class="parts">
-          <label for="title">件名</label><span>※必須</span>
-          <select class="parts" id="title" name="title" required>
+          <label for="title">件名<span>※必須</span></label>
+          <select class="form-part-common" id="title" name="title" required>
             <option disabled selected value="">選択して下さい</option>
             <option value="1">ご意見</option>
             <option value="2">ご感想</option>
@@ -52,7 +52,7 @@
         </div>
         <div class="parts">
           <label for="name">名前<span>※必須</span></label>
-          <input type="text" class="" id="name" name="name" placeholder="名前"
+          <input type="text" class="form-part-common" id="name" name="name" placeholder="名前"
                  value="<?php if(isset($_POST['name'])) print(htmlspecialchars($_POST['name'], ENT_QUOTES)); ?>" required>
           <?php if(isset($error['name'])): ?>
             <p class="error">名前を入力して下さい。</p>
@@ -60,7 +60,7 @@
         </div>
         <div class="parts">
           <label for="email">メールアドレス<span>※必須</span></label>
-          <input type="email" class="" id="email" name="email" placeholder="メールアドレス"
+          <input type="email" class="form-part-common" id="email" name="email" placeholder="メールアドレス"
                  value="<?php if(isset($_POST['email'])) print(htmlspecialchars($_POST['email'], ENT_QUOTES)); ?>" required>
           <?php if(isset($error['email'])): ?>
             <p class="error">メールアドレスを入力して下さい。</p>
@@ -68,7 +68,7 @@
         </div>
         <div class="parts">
           <label for="tel">電話番号<span>※必須</span></label>
-          <input type="tel" class="" id="tel" name="tel" placeholder="電話番号"
+          <input type="tel" class="form-part-common" id="tel" name="tel" placeholder="電話番号"
                  value="<?php if(isset($_POST['tel'])) print(htmlspecialchars($_POST['tel'], ENT_QUOTES)); ?>" required>
           <?php if(isset($error['tel_blank']) && $error['tel_blank'] == 'blank'): ?>
             <p class="error">電話番号を入力して下さい。</p>
@@ -79,13 +79,13 @@
         </div>
         <div class="parts">
           <label for="content">お問い合わせ内容<span>※必須</span></label>
-          <textarea class="" id="content" name="content" placeholder="お問い合わせ内容" rows="4" required><?php if(isset($_POST['content']))
+          <textarea class="form-part-common" id="content" name="content" placeholder="お問い合わせ内容" rows="4" required><?php if(isset($_POST['content']))
                     print(htmlspecialchars($_POST['content'], ENT_QUOTES)); ?></textarea>
           <?php if(isset($error['content'])): ?>
             <p class="error">お問い合わせ内容を入力して下さい。</p>
           <?php endif; ?>
         </div>
-        <div><input type="submit" value="確認画面" /></div>
+        <div class="parts"><input type="submit" value="確認画面" /></div>
       </form>
     </div>
   </body>

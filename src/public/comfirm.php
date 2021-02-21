@@ -88,8 +88,9 @@
   </head>
   <body>
     <div class="container">
+      <h1>Check</h1>
       <form method="post">
-        <table>
+        <table class="comfirm-table">
           <tr>
             <th>件名</th>
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['title'], ENT_QUOTES)); ?></td>
@@ -111,7 +112,7 @@
             <td><?php print(htmlspecialchars($_SESSION['comfirm']['content'], ENT_QUOTES)); ?></td>
           </tr>
         </table>
-        <div><a href="index.php?action=back">フォームに戻る</a> | <input type="submit" value="送信する"></div>
+        <div><a href="index.php?action=back" class="back-link">フォームに戻る</a> | <input type="submit" value="送信する"></div>
         <input type="hidden" name="action" value="comfirmed">
       </form>
     </div>
