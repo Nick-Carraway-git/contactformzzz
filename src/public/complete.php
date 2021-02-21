@@ -1,20 +1,20 @@
 <?php
-  session_start();
-  require('../db_setting.php');
+session_start();
+require('../db_setting.php');
 
-  if(!isset($_SESSION['comfirm'])) {
+if (!isset($_SESSION['comfirm'])) {
     header('Location: index.php');
     exit();
-  }
+}
 
-  // メール送信に失敗した場合のメッセージを変数に格納
-  if(isset($_SESSION['send'])) $send_error = $_SESSION['send'];
-  if(isset($_SESSION['db'])) $db_error = $_SESSION['db'];
+// メール送信に失敗した場合のメッセージを変数に格納
+if(isset($_SESSION['send'])) $send_error = $_SESSION['send'];
+if(isset($_SESSION['db'])) $db_error = $_SESSION['db'];
 
-  // SESSION変数の割り当てを解除
-  unset($_SESSION['comfirm']);
-  unset($_SESSION['send']);
-  unset($_SESSION['db']);
+// SESSION変数の割り当てを解除
+unset($_SESSION['comfirm']);
+unset($_SESSION['send']);
+unset($_SESSION['db']);
 ?>
 
 <!DOCTYPE html>

@@ -1,99 +1,98 @@
 <?php
-  session_start();
-  // Database設定の読み込み
-  require('../db_setting.php');
-  // PHPMailerと環境設定ファイルの読み込み
-  require('../vendor/autoload.php');
-  require('../phpmailvars.php');
+session_start();
+// Database設定の読み込み
+require('../db_setting.php');
+// PHPMailerと環境設定ファイルの読み込み
+require('../vendor/autoload.php');
+require('../phpmailvars.php');
 
-  use PHPMailer\PHPMailer\PHPMailer;
-  use PHPMailer\PHPMailer\Exception;
-  use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
-  # フォーム画面以外からのアクセスはリダイレクト
-  if(!isset($_SESSION['comfirm'])) {
+// フォーム画面以外からのアクセスはリダイレクト
+if (!isset($_SESSION['comfirm'])) {
     header('Location: index.php');
     exit();
-  }
+}
 
-  # 件名を日本語に置換
-  switch($_SESSION['comfirm']['title']) {
+// 件名を日本語に置換
+switch ($_SESSION['comfirm']['title']) {
     case "1":
-      $_SESSION['comfirm']['title'] = 'ご意見';
-      break;
+        $_SESSION['comfirm']['title'] = 'ご意見';
+        break;
     case "2":
-      $_SESSION['comfirm']['title'] = 'ご感想';
-      break;
+        $_SESSION['comfirm']['title'] = 'ご感想';
+        break;
     case "3":
-      $_SESSION['comfirm']['title'] = 'その他';
-      break;
-  }
+        $_SESSION['comfirm']['title'] = 'その他';
+        break;
+}
 
-  if(!empty($_POST)) {
+if(!empty($_POST)) {
     // お問い合わせ送信時にデータベースに登録
     try {
-      $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
-      $statement->execute(array(
-        $_SESSION['comfirm']['title'],
-        $_SESSION['comfirm']['name'],
-        $_SESSION['comfirm']['email'],
-        $_SESSION['comfirm']['tel'],
-        $_SESSION['comfirm']['content'],
-      ));
+        $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
+        $statement->execute(array(
+          $_SESSION['comfirm']['title'],
+          $_SESSION['comfirm']['name'],
+          $_SESSION['comfirm']['email'],
+          $_SESSION['comfirm']['tel'],
+          $_SESSION['comfirm']['content'],
+        ));
     } catch (PDOException $e) {
-      $_SESSION['db'] = 'データベースの登録に失敗しました。';
+        $_SESSION['db'] = 'データベースの登録に失敗しました。';
     }
 
     $mailer = new PHPMailer(true);
 
     // SMTPの設定情報
     try {
-      $mailer->CharSet = "iso-2022-jp-ms";
-      $mailer->Encoding = "7bit";
-      $mailer->IsSMTP();
-      $mailer->Host = HOST;
-      $mailer->SMTPAuth = true;
-      // $mailer->SMTPDebug = 2;
-      $mailer->SMTPSecure = "tls";
-      $mailer->Port = 587;
-      $mailer->Username = USERNAME;
-      $mailer->Password = PASSWORD;
-      $mailer->setFrom(USERNAME, USERNAME_ALIAS);
+        $mailer->CharSet = "iso-2022-jp-ms";
+        $mailer->Encoding = "7bit";
+        $mailer->IsSMTP();
+        $mailer->Host = HOST;
+        $mailer->SMTPAuth = true;
+        // $mailer->SMTPDebug = 2;
+        $mailer->SMTPSecure = "tls";
+        $mailer->Port = 587;
+        $mailer->Username = USERNAME;
+        $mailer->Password = PASSWORD;
+        $mailer->setFrom(USERNAME, USERNAME_ALIAS);
 
-      $mailer->AddAddress(USERNAME);
-      $mailer->AddAddress($_SESSION['comfirm']['email']);
-      $mailer->Subject = mb_encode_mimeheader('お問い合わせを受け付けました。', 'iso-2022-jp-ms');
+        $mailer->AddAddress(USERNAME);
+        $mailer->AddAddress($_SESSION['comfirm']['email']);
+        $mailer->Subject = mb_encode_mimeheader('お問い合わせを受け付けました。', 'iso-2022-jp-ms');
 
-      $mailer->WordWrap = 70;
-      $body = "下記の内容でお問い合わせを受け付けました。\n\n";
-      $body .= "お問い合わせ日時：" . date("Y-m-d H:i") . "\n";
-      $body .= "お名前：" . $_SESSION['comfirm']['name'] . "\n";
-      $body .= "メールアドレス：" . $_SESSION['comfirm']['email'] . "\n";
-      $body .= "お電話番号： " . $_SESSION['comfirm']['tel'] . "\n\n" ;
-      $body .="＜お問い合わせ内容＞" . "\n" . $_SESSION['comfirm']['content'];
-      $mailer->Body = mb_convert_encoding($body, "iso-2022-jp-ms", "utf-8" );
+        $mailer->WordWrap = 70;
+        $body = "下記の内容でお問い合わせを受け付けました。\n\n";
+        $body .= "お問い合わせ日時：" . date("Y-m-d H:i") . "\n";
+        $body .= "お名前：" . $_SESSION['comfirm']['name'] . "\n";
+        $body .= "メールアドレス：" . $_SESSION['comfirm']['email'] . "\n";
+        $body .= "お電話番号： " . $_SESSION['comfirm']['tel'] . "\n\n" ;
+        $body .="＜お問い合わせ内容＞" . "\n" . $_SESSION['comfirm']['content'];
+        $mailer->Body = mb_convert_encoding($body, "iso-2022-jp-ms", "utf-8" );
 
-      $mailer->Send();
+        $mailer->Send();
     } catch (Exception $e) {
-      $_SESSION['send'] = 'メールの送信に失敗しました。メールアドレスが正確かご確認ください。';
+        $_SESSION['send'] = 'メールの送信に失敗しました。メールアドレスが正確かご確認ください。';
     }
 
     /* メール送信が成功した場合に、同時にデータベースにも登録するパターン
     if (!isset($_SESSION['send'])) {
-      $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
-      $statement->execute(array(
-        $_SESSION['comfirm']['title'],
-        $_SESSION['comfirm']['name'],
-        $_SESSION['comfirm']['email'],
-        $_SESSION['comfirm']['tel'],
-        $_SESSION['comfirm']['content'],
-      ));
-    }
-    */
+        $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
+        $statement->execute(array(
+            $_SESSION['comfirm']['title'],
+            $_SESSION['comfirm']['name'],
+            $_SESSION['comfirm']['email'],
+            $_SESSION['comfirm']['tel'],
+            $_SESSION['comfirm']['content'],
+        ));
+    } */
 
     header('Location: complete.php');
     exit();
-  }
+}
 ?>
 
 <!DOCTYPE html>

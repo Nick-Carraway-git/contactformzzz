@@ -1,7 +1,7 @@
 <?php
-  require('../db_setting.php');
-  // 問い合わせから最新の20件を表示
-  $logs = $db->query('SELECT * from contactlogs ORDER BY id DESC LIMIT 20');
+require('../db_setting.php');
+// 問い合わせから最新の20件を表示
+$logs = $db->query('SELECT * from contactlogs ORDER BY id DESC LIMIT 20');
 ?>
 
 <!DOCTYPE html>

@@ -12,9 +12,9 @@ $create_table = "CREATE TABLE IF NOT EXISTS contactlogs (
 ) DEFAULT CHARSET=utf8";
 
 try {
-  $db = new PDO($dsn, $user, $password);
-  $db->query($create_table);
+    $db = new PDO($dsn, $user, $password);
+    $db->query($create_table);
 } catch (PDOException $e) {
-  print('エラー内容:' .$e->getMessage());
+    print('エラー内容:' .$e->getMessage());
 }
 ?>

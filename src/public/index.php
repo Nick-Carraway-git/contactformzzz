@@ -1,32 +1,32 @@
 <?php
-  session_start();
+session_start();
 
-  # エラーチェック
-  if(!empty($_POST)) {
-    if(empty($_POST['title'])) $error['title'] = 'blank';
-    if(empty($_POST['name'])) $error['name'] = 'blank';
-    if(empty($_POST['email'])) $error['email'] = 'blank';
-    if(empty($_POST['tel'])) $error['tel_blank'] = 'blank';
-    if(!is_numeric($_POST['tel'])) $error['tel_nonum'] = 'nonum';
-    if(strlen($_POST['tel']) > 15) $error['tel_long'] = 'long';
-    if(empty($_POST['content'])) $error['content'] = 'blank';
+# エラーチェック
+if(!empty($_POST)) {
+    if (empty($_POST['title'])) $error['title'] = 'blank';
+    if (empty($_POST['name'])) $error['name'] = 'blank';
+    if (empty($_POST['email'])) $error['email'] = 'blank';
+    if (empty($_POST['tel'])) $error['tel_blank'] = 'blank';
+    if (!is_numeric($_POST['tel'])) $error['tel_nonum'] = 'nonum';
+    if (strlen($_POST['tel']) > 15) $error['tel_long'] = 'long';
+    if (empty($_POST['content'])) $error['content'] = 'blank';
 
-    if(empty($error)) {
-      $_SESSION['comfirm'] = $_POST;
-      header('Location: comfirm.php');
-      exit();
+    if (empty($error)) {
+        $_SESSION['comfirm'] = $_POST;
+        header('Location: comfirm.php');
+        exit();
     }
-  }
+}
 
-  // フォームへ戻る以外で、$_SESSIONを保持するのは不正なので解除
-  if(!empty($_POST) && isset($_SESSION['comfirm'])) {
+// フォームへ戻る以外で、$_SESSIONを保持するのは不正なので解除
+if (!empty($_POST) && isset($_SESSION['comfirm'])) {
     unset($_SESSION['comfirm']);
-  }
+}
 
-  // 確認画面から戻ってきた場合に書いた内容を補完
-  if(isset($_REQUEST['action']) && isset($_SESSION['comfirm'])) {
+// 確認画面から戻ってきた場合に書いた内容を補完
+if(isset($_REQUEST['action']) && isset($_SESSION['comfirm'])) {
     $_POST = $_SESSION['comfirm'];
-  }
+}
 ?>
 
 <!DOCTYPE html>
