@@ -7,8 +7,11 @@
     exit();
   }
 
+  if(isset($_SESSION['send'])) $send_error = $_SESSION['send'];
   $logs = $db->query('SELECT * from contactlogs');
+
   unset($_SESSION['comfirm']);
+  unset($_SESSION['send']);
 ?>
 
 <!DOCTYPE html>
@@ -21,6 +24,9 @@
   </head>
   <body>
     <div class="container">
+      <p>
+        <?php if(isset($send_error)) print($send_error); ?>
+      </p>
       <table border="1" cellpadding="5">
         <tr>
           <th>件名</th>

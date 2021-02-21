@@ -1,6 +1,13 @@
 <?php
   session_start();
   require('../db_setting.php');
+  // PHPMailerと環境設定ファイルの読み込み
+  require('../vendor/autoload.php');
+  require('../phpmailvars.php');
+
+  use PHPMailer\PHPMailer\PHPMailer;
+  use PHPMailer\PHPMailer\Exception;
+  use PHPMailer\PHPMailer\SMTP;
 
   if(!isset($_SESSION['comfirm'])) {
     header('Location: index.php');
@@ -20,14 +27,51 @@
   }
 
   if(!empty($_POST)) {
-    $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
-    $statement->execute(array(
-      $_SESSION['comfirm']['title'],
-      $_SESSION['comfirm']['name'],
-      $_SESSION['comfirm']['email'],
-      $_SESSION['comfirm']['tel'],
-      $_SESSION['comfirm']['content'],
-    ));
+    $mailer = new PHPMailer(true);
+
+    // SMTPの設定情報
+    try {
+      $mailer->CharSet = "iso-2022-jp-ms";
+      $mailer->Encoding = "7bit";
+      $mailer->IsSMTP();
+      $mailer->Host = HOST;
+      $mailer->SMTPAuth = true;
+      // $mailer->SMTPDebug = 2;
+      $mailer->SMTPSecure = "tls";
+      $mailer->Port = 587;
+      $mailer->Username = USERNAME;
+      $mailer->Password = PASSWORD;
+      $mailer->setFrom(USERNAME, USERNAME_ALIAS);
+
+      $mailer->AddAddress(USERNAME);
+      $mailer->AddAddress($_SESSION['comfirm']['email']);
+      $mailer->Subject = mb_encode_mimeheader('お問い合わせを受け付けました。', 'iso-2022-jp-ms');
+
+      $mailer->WordWrap = 70;
+      $body = "下記の内容でお問い合わせを受け付けました。\n\n";
+      $body .= "お問い合わせ日時：" . date("Y-m-d H:i") . "\n";
+      $body .= "お名前：" . $_SESSION['comfirm']['name'] . "\n";
+      $body .= "メールアドレス：" . $_SESSION['comfirm']['email'] . "\n";
+      $body .= "お電話番号： " . $_SESSION['comfirm']['tel'] . "\n\n" ;
+      $body .="＜お問い合わせ内容＞" . "\n" . $_SESSION['comfirm']['content'];
+      $mailer->Body = mb_convert_encoding($body, "iso-2022-jp-ms", "utf-8" );
+
+      $mailer->Send();
+    } catch (Exception $e) {
+      $_SESSION['send'] = 'メールの送信とデータベースの登録に失敗しました。メールアドレスが正確かご確認ください。';
+      // echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+
+    if (!isset($_SESSION['send'])) {
+      $statement = $db->prepare('INSERT INTO contactlogs SET title=?, name=?, email=?, tel=?, content=?');
+      $statement->execute(array(
+        $_SESSION['comfirm']['title'],
+        $_SESSION['comfirm']['name'],
+        $_SESSION['comfirm']['email'],
+        $_SESSION['comfirm']['tel'],
+        $_SESSION['comfirm']['content'],
+      ));
+    }
 
     header('Location: complete.php');
     exit();
