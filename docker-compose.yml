@@ -1,0 +1,58 @@
+version: "3.8"
+
+volumes:
+  db-contact:
+networks:
+  web-contact:
+services:
+  app:
+    container_name: php_contactform
+    build: ./docker/php
+    env_file: ./src/.env
+    networks:
+      - web-contact
+    depends_on:
+      - db
+    volumes:
+      - ./src:/contactform
+
+  web:
+    container_name: nginx_contactform
+    image: nginx:1.18-alpine
+    ports:
+      - 80:80
+    networks:
+      - web-contact
+    depends_on:
+      - app
+    volumes:
+      - ./src:/contactform
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    working_dir: /contactform
+
+  db:
+    container_name: mysql_contactform
+    image: mysql:8.0
+    env_file: ./src/.env
+    ports:
+      - 3306:3306
+    networks:
+      - web-contact
+    volumes:
+      - db-contact:/var/lib/mysql
+      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+
+  composer:
+    restart: 'no'
+    image: composer/composer
+    command: install
+    volumes:
+      - ./src:/app
+
+  maildev:
+    image: kanemu/maildev-with-iconv
+    ports:
+      - 1025:25
+      - 8025:80
+    networks:
+      - web-contact
