@@ -39,7 +39,7 @@ services:
     networks:
       - web-contact
     volumes:
-      - db-contact:/contactform
+      - db-contact:/var/lib/mysql
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
 
   composer:
